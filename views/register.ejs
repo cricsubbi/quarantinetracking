@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>register Portal</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="./style/style.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <style>
+      .btn-animated {
+        animation: moveInBottom 0.2s
+          ease-out;
+        animation-fill-mode: backwards;
+      }
+      @keyframes moveInBottom {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0px);
+        }
+      }
+    </style>
+    <script>
+      function showPosition() {
+          if(navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(function(position) {
+                  
+                var positionInfo = "Your current position is (" + "Latitude: " + position.coords.latitude + ", " + "Longitude: " + position.coords.longitude + ")";
+                document.getElementById("result").innerHTML = positionInfo;
+              });
+          } else {
+              alert("Sorry, your browser does not support HTML5 geolocation.");
+          }
+      }
+  </script>
+  </head>
+  <body>
+    <img src="./images/logo.png" alt="Logo">
+    <div class="title">Please Register</div>
+    <form  class="fields" method="POST" action="/register" >
+      <% if(message.length>0){%>
+        <p style="color: red;"><%= message %></p>
+      <%}%>
+      <input type="username" class="user-input username" name="stationName" placeholder="Station name" required />
+      <input type="username" class="user-input username" name="area" placeholder="Area"required />
+    <input type="password" class="pass-input password" name="password" placeholder="Password"required />
+   
+      <input type="text" id="lati" class="pass-input username" name="lati" placeholder="lati"required />
+      
+      <input type="text" id="long" class="pass-input username" name="long" placeholder="long"required/>
+      <div id="result"></div>
+      <button onclick="showPosition();" style="width: 60px!important" class="btn btn-primary btn-sm">Getloc</button>
+      
+    
+    <p>Click here to <a href="/">Sign in</a></p>
+    <br>
+    <div>
+      
+    </div>
+    <button class="signin-button btn-animated">Register</button>
+    </form>
+   
+    </div>
+    
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <link
+      rel="stylesheet"
+      href="./style/style.css"
+    />
+    <meta http-equiv="refresh" content="900">
+
+    <title>Login Portal</title>
+  </head>
+  <body>
+    <img src="./images/logo.png
+    " alt="Logo">
+    <div class="title">Please Login</div>
+    <form action="/" method="POST" class="fields">
+      <% if(message.length>0){%>
+        <p style="color: red;"><%= message %></p>
+      <%}%>
+      <input type="username" class="user-input username" required name="stationName" placeholder="Username" />
+    <input type="password" class="pass-input password" required name="password" placeholder="Password" />
+    <p>Click here to <a href="/register">Register</a></p>
+    <br>
+    <button class="signin-button">SignIn</button>
+    </form>
+    
+    </div>
+  </body>
+</html>

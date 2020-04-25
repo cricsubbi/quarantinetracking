@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "police-app-83d37",
+  "private_key_id": "f874a9caf89992a8c2acbca0c53ef0d018c3f3f6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCn7F0ZwAe8UyQH\nSQIWJrCdtYJ0VioDmRfRvCKw33d8vZmGPb/jeIXr8669yDBwl0HnJCXKz8v2jAsJ\nvCw0i1tPpLfeU/ntYIfHvVflfTUZXGYgEB7LJLCTbPy5XZ+6i36jQ+LkKjR3rDn4\n2uwgQfbtbXYxlOhzpZFcSWOAemuk5ShzSISldIY1E3/b18wYYfsfVEzjVe9hZChO\nZ09mxSV+50ZK3PjdH1kYCKaFNzACi/e8oz10gpakyrw8iYtvR3aldxKMqrjI5mgj\nq0W2o0K1GLuPBBEMJXrBwp+pPRJwfiDVFsTFTKI2RnzM0fMvs33TBDHJ5nllKKsg\nCB9uC37RAgMBAAECggEAAqzQvnOKiqxMTwd8MTYvsuHN9Kcyfe+5I0VZrAsG95Q6\n5c/Azr7YKyYyM39k2lH7ie3KTRWT5TR4YMuNd08SGYtD21anwlQq8j0cwUj2G4Zs\ne/sRGC6oV4nj/wU2pswYoevSVDeMp0x644aDyP9aBQYM/Oesug+84y0qCM/9HDbn\nHFVKkynOEFhhLmO78pR2uQVFF+KzUo2oBaLisAamkYdIvn+AogZUMsjsErf1eGps\n3onsFr+0dNVXRLYEqtTgJR50nP1lGhRwqG8IdH1sqIvUqayAIf1FASExFQNG8xD1\nEmI8GoZhdxiQq8vM855ngjzqj89o9WF+FoolLBaBAQKBgQDnM05JvPp6TVVMBRYx\n9xeHfKeMEMw2PwrxXHZeFk8iTk8g1kHgtsocpy2DNJwfM2Jo+mEIX+5isDvDpkqX\nYDt5z19Ge3NMo/V+KZlnHlo9TSJbSiyhhXAtADruZ1d50WLScXtU4i+t3l61JDOW\nC8Anr1teJvxVMCUyDmC49rE/AQKBgQC573y1D/lhXl67/BbTUuu3wrJIhWO7TzdV\nCzrzfeT11AJR6/slq5YNvKvzQXoTLK7QNkl4jpAtocJfdqv6KMsLZEHNn5ec0ueB\n114B9c37vjS9alVUcZP7mdm+Wz5n290rOxaezlIHU7bQ+YnSww7a6K4pvsM7GSiw\nx2wEyqYP0QKBgDI2AUWgZiGTk/e7jxNw30pMdzLDHyaU0HKUqxxJ6gvASA0QmyQL\nbp+Eayz4iwN3rGKyJcqk0ufZ8FDQV5jCjIgq0j1DaEn3vcQVkrxDakOv8cszs7es\nfC05xJKsHOJW6AheHvPTX5l6FsVuREnM6YF04vnyq5BwsVNKrhTddqcBAoGBAIGY\nofRVqP0r2J3wLDypDDDt3HPdvVC9+xQkmrdCZYbOebt93nQ4L4NtoPAREDQzLblk\nTTthKq8TkzYUsfPP4Q4UmCTo+rTM7525bgWxvRudTIdFiSota/avGmyqjkm3nmVW\nbwLLTbNbrw3jECQ93qnICjSAiPU1KP5mUSzZznsxAoGADlrWVsYKX92sgztC3rmB\njz+hAuwdP3RpChWztehb2mREYPKdvbJeo8Y+b5nxCckY4vhPS6fe2BENdzIljB4Z\nCoUzBI+OknxaR88FCWH024++mtRPm/m4oSI8yX0m1Oe6evE3vQgngoQ3gLe/ii/m\nb7AYxm6GEtcRru286d5FH8I=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-wldtv@police-app-83d37.iam.gserviceaccount.com",
+  "client_id": "110484401754517511129",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-wldtv%40police-app-83d37.iam.gserviceaccount.com"
+}

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <link href="https://fonts.googleapis.com/css2?family=Girassol&family=Noto+Sans+KR:wght@900&family=Bree+Serif&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style/style.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/1dff68118a.js"></script>
+    <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  />
+  <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+  />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  
+    <title>covid info</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info text-dark">
+      <div style="margin-bottom: 20px;">
+           <a class="navbar-brand brand-name " href="#"><span><img class="img-responsive2" style="position:static;width:65px;height: 50px;"  
+            src="./images/virus.png"></span></a>
+          </div>
+      
+        <div class="collapse navbar-collapse"  id="navbarTogglerDemo03">
+          <ul class="navbar-nav ml-auto mr-5 mt-lg-0" style="float: right; align-items: center;">
+            <li class="nav-item active" >
+              <a class="nav-link mr-5" href="/main"><div class="icon"><i class="fa fa-users fa-border fa-2x" aria-hidden="true"></div></i></a>
+            </li>
+            <li class="nav-item" >
+              <a class="nav-link mr-5" href="/covidinfo"><i class="fa fa-bar-chart fa-border fa-2x" aria-hidden="true"></i></a>
+            </li>
+            <div class="nav-item">
+              <form class="form-inline ml-12 my-2 my-lg-0" action="/logout" method="POST">
+                <button class="btn btn-secondary my-2 my-sm-0" style="background: #4B5366;" type="submit">Logout</button>
+              </form>
+            </div>
+          </ul>
+         
+        </div>
+      </nav>  
+  <br>
+<div class="container">
+  <h1 style="font-family: 'Bree Serif', serif; color:darkblue ;font-size: 55px; " >COVID-19 CASES IN INDIA</h1>
+  <br>
+  <div class="row">
+    
+    <div class="card card-info" style="border-color:crimson ;">
+      <div class="card-header">
+        <h3 class="card-title">No Of Confirmed Cases</h3>
+      </div>
+      <div class="card-body">
+        <div class="chart">
+          <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        </div>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <div class="card card-info" style="margin-left: 30px;border-color: lightseagreen;">
+      <div class="card-header">
+        <h3 class="card-title">No Of People Recovered</h3>
+      </div>
+      <div class="card-body">
+        <div class="chart">
+          <canvas id="lineChart1" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+        </div>
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    
+    <div class="card" style="width:250px;height: 150px;border-color:blueviolet;padding-bottom: 15px;">
+      <div class="card-body">
+        <h3 class="card-title" style="font-family: 'Noto Sans KR', sans-serif;text-transform:capitalize ;">total no of confirmed cases</h3>
+        <p class="card-text" style="color:chocolate;font-size:xx-large;"><%=totalInfo.totalInfo.confirmed%></p>
+      </div>
+    </div>
+    <div class="card" style="margin-left: 30px;width:250px;height: 150px;border-color: blueviolet;padding-bottom: 15px;">
+      <div class="card-body">
+        <h3 class="card-title" style="font-family: 'Noto Sans KR', sans-serif;text-transform:capitalize ;">total no of active cases</h3>
+        <p class="card-text" style="color: rebeccapurple;font-size:xx-large;"><%=totalInfo.totalInfo.active%></p>
+      </div>
+    </div>
+    <div class="card" style="margin-left: 30px;width:250px;height: 150px;border-color: blueviolet;padding-bottom: 15px;">
+      <div class="card-body">
+        <h3 class="card-title" style="font-family: 'Noto Sans KR', sans-serif;text-transform:capitalize ;">total no of people recovered </h3>
+        <p class="card-text" style="color: green;font-size:xx-large;"><%=totalInfo.totalInfo.recovered%></p>
+      </div>
+    </div>
+    
+ 
+  
+  
+    <div class="card" style="margin-left: 30px;width:250px;height: 150px;border-color: blueviolet;padding-bottom: 15px;">
+      <div class="card-body">
+        <h3 class="card-title" style="font-family: 'Noto Sans KR', sans-serif;text-transform:capitalize ;">total no of deaths </h3>
+        <p class="card-text" style="color:red;font-size:xx-large;"><%=totalInfo.totalInfo.deaths%></p>
+      </div>
+    </div>
+  </div>
+    
+  </div>
+</div>
+<script>
+  var ctx = document.getElementById('lineChart').getContext('2d');
+  var ctx1 = document.getElementById('lineChart1').getContext('2d');
+  const labelsx = [];
+  const confirmed=[];
+  const recovered= [];  
+  chartIt();
+  async function chartIt(){
+    
+    
+
+fetch('https://api.covid19india.org/data.json').then((res)=>{
+    res.json().then((data)=>{
+if(data.err){
+    msg1.textContent = data.err
+}
+else{
+  var label1 = []
+  var label2 = []
+  var label3 = []
+    data.cases_time_series.forEach(element => {
+      label1.push(element.date)
+      label2.push(element.totalconfirmed)
+      label3.push(element.totalrecovered)
+    });
+    console.log(label3)
+    for(i=0;i<label1.length;i+=3) {
+    labelsx.push(label1[i])
+    confirmed.push(label2[i])
+    recovered.push(label3[i])
+    }
+    
+    console.log(recovered)
+    var chart1 = new Chart(ctx1, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        
+        labels: labelsx,
+        datasets: [{
+            label: 'No of People Recovered',
+            backgroundColor:'#228B22',
+            borderColor: '#228B22',
+            data:recovered
+        }]
+    },
+
+    // Configuration options go here
+    options: {
+      scales: {
+        xAxes: [{
+          gridLines : {
+            display : false,
+          }
+        }],
+        yAxes: [{
+          gridLines : {
+            display : false,
+          }
+        }]
+      }
+    }
+});
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        
+        labels: labelsx,
+        datasets: [{
+            label: 'No of confirmed cases',
+            backgroundColor: '#8B0000',
+            borderColor: '#8B0000',
+            data:confirmed
+        }]
+    },
+
+    // Configuration options go here
+    options: {
+      scales: {
+        xAxes: [{
+          gridLines : {
+            display : false,
+          }
+        }],
+        yAxes: [{
+          gridLines : {
+            display : false,
+          }
+        }]
+      }
+    }
+});
+}
+    })
+})
+
+    }
+  
+
+
+async function  getData(){
+  
+
+}
+</script>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+  <script
+  src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+  integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+  crossorigin="anonymous"></script>
+  <script src="./js/script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
