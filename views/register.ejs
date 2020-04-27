@@ -1,70 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>register Portal</title>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="./style/style.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Portal</title>
     <style>
-      .btn-animated {
-        animation: moveInBottom 0.2s
-          ease-out;
-        animation-fill-mode: backwards;
+      body {
+        background: #f9f9f9; /* fallback for old browsers */
+        font-family: "Raleway", sans-serif;
+        color: #151515;
       }
-      @keyframes moveInBottom {
-        0% {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0px);
-        }
+      a {
+        color: black;
+        font-weight: 600;
+        font-size: 0.85em;
+        text-decoration: none;
+      }
+      label {
+        color: black;
+        font-weight: 600;
+        font-size: 0.85em;
+      }
+      input:focus {
+        outline: none;
+      }
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      .form {
+        display: flex;
+        width: auto;
+        background: #fff;
+        margin: 15px;
+        padding: 25px;
+        border-radius: 25px;
+        box-shadow: 0px 10px 25px 5px #0000000f;
+      }
+      .sign-in-section {
+        padding: 30px;
+      }
+      .sign-in-section h6 {
+        margin-top: 0px;
+        font-size: 0.75em;
+      }
+      .sign-in-section h1 {
+        text-align: center;
+        font-weight: 700;
+        position: relative;
+      }
+      .sign-in-section h1:after {
+        position: absolute;
+        content: "";
+        height: 5px;
+        bottom: -15px;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        width: 40px;
+        background: #fe0000;
+        background: -webkit-linear-gradient(to right, #fe0000, #fe0000);
+        background: linear-gradient(to right, #fe0000, #fe0000);
+        -o-transition: 0.1s;
+        -ms-transition: 0.1s;
+        -moz-transition: 0.1s;
+        -webkit-transition: 0.1s;
+        transition: 0.1s;
+      }
+      .sign-in-section h1:hover:after {
+        width: 100px;
+      }
+      .sign-in-section ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+      }
+      .sign-in-section ul > li {
+        display: inline-block;
+        padding: 10px;
+        font-size: 15px;
+        width: 20px;
+        text-align: center;
+        text-decoration: none;
+        margin: 5px 2px;
+        border-radius: 50%;
+        box-shadow: 0px 3px 1px #0000000f;
+        border: 1px solid #e2e2e2;
+      }
+      .sign-in-section p {
+        text-align: center;
+        font-size: 0.85em;
+      }
+      .form-field {
+        display: block;
+        width: 300px;
+        margin: 10px auto;
+      }
+      .form-field label {
+        display: block;
+        margin-bottom: 10px;
+      }
+      .form-field input[type="text"],
+      input[type="password"] {
+        width: -webkit-fill-available;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #e8e8e8;
+      }
+      .form-field input::placeholder {
+        color: #e8e8e8;
+      }
+      .form-field input:focus {
+        border: 1px solid #fe0000;
+      }
+      .form-options {
+        display: block;
+        margin: auto;
+        width: 300px;
+      }
+      .form-options a {
+        float: left;
+        text-decoration: none;
+      }
+      .btn {
+        padding: 15px;
+        font-size: 1em;
+        width: 100%;
+        border-radius: 25px;
+        border: none;
+        margin: 20px 0px;
+      }
+      .btn-signin {
+        cursor: pointer;
+        background: #fe0000;
+        background: -webkit-linear-gradient(to right, #980000, #ff1919);
+        background: linear-gradient(to right, #fe0000, #ff1919);
+        box-shadow: 0px 5px 15px 5px #840fe440;
+        color: #fff;
+      }
+      .btn-location {
+        padding: 15px;
+        font-size: 1em;
+        top: 50%;
+        left: 50%;
+        margin-left: 25%;
+
+        width: 50%;
+        border-radius: 30px;
+        border: none;
+        margin: 20px 0px;
+        cursor: pointer;
+        background: #fe0000;
+        background: -webkit-linear-gradient(to right, #980000, #ff1919);
+        background: linear-gradient(to right, #fe0000, #ff1919);
+        box-shadow: 0px 2px 7px 2px #840fe440;
+        color: #fff;
+      }
+      .alert {
       }
     </style>
-    <script>
-      function showPosition() {
-          if(navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(function(position) {
-                  
-                var positionInfo = "Your current position is (" + "Latitude: " + position.coords.latitude + ", " + "Longitude: " + position.coords.longitude + ")";
-                document.getElementById("result").innerHTML = positionInfo;
-              });
-          } else {
-              alert("Sorry, your browser does not support HTML5 geolocation.");
-          }
-      }
-  </script>
   </head>
   <body>
-    <img src="./images/logo.png" alt="Logo">
-    <div class="title">Please Register</div>
-    <form  class="fields" method="POST" action="/register" >
-      <% if(message.length>0){%>
-        <p style="color: red;"><%= message %></p>
-      <%}%>
-      <input type="username" class="user-input username" name="stationName" placeholder="Station name" required />
-      <input type="username" class="user-input username" name="area" placeholder="Area"required />
-    <input type="password" class="pass-input password" name="password" placeholder="Password"required />
-   
-      <input type="text" id="lati" class="pass-input username" name="lati" placeholder="lati"required />
-      
-      <input type="text" id="long" class="pass-input username" name="long" placeholder="long"required/>
-      <div id="result"></div>
-      <button onclick="showPosition();" style="width: 60px!important" class="btn btn-primary btn-sm">Getloc</button>
-      
-    
-    <p>Click here to <a href="/">Sign in</a></p>
-    <br>
-    <div>
-      
+    <div class="container">
+      <div class="form">
+        <div class="sign-in-section">
+          <h1>Register</h1>
+          <% if(message.length>0){%>
+          <p class="alert">
+            <%= message %>
+          </p>
+          <%}%>
+          <!-- <form action="/register" method="POST"> -->
+          <div class="form-field">
+            <label for="username">Station Name</label>
+            <input
+              id="username"
+              type="text"
+              placeholder="Username"
+              name="stationName"
+            />
+          </div>
+          <div class="form-field">
+            <label for="username">Area</label>
+            <input id="area" type="text" placeholder="Username" name="area" />
+          </div>
+          <div class="form-field">
+            <label for="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Password"
+              name="password"
+            />
+          </div>
+          <div class="form-field">
+            <button
+              onclick="getLocation()"
+              class="btn-location"
+              style="margin-left: 25%;"
+            >
+              Get Location
+            </button>
+          </div>
+          <div class="form-options">
+            <a href="/">Already Registered?</a>
+          </div>
+          <div class="form-field">
+            <input
+              type="submit"
+              class="btn btn-signin"
+              id="register"
+              value="Submit"
+            />
+          </div>
+          <p id="location"></p>
+          <!-- </form> -->
+        </div>
+      </div>
     </div>
-    <button class="signin-button btn-animated">Register</button>
-    </form>
-   
-    </div>
-    
+    <script>
+      var latitude, longitude;
+      var x = document.getElementById("location");
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+      }
+      function showPosition(position) {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+        alert("Your Location is " + latitude + " " + longitude);
+      }
+      var sendRequest = document.getElementById("register");
+      function post(url, params, method = "post") {
+        var form = document.createElement("form");
+
+        form._submit_function_ = form.submit;
+
+        form.setAttribute("method", method);
+        form.setAttribute("action", url);
+
+        for (var key in params) {
+          var hiddenField = document.createElement("input");
+          hiddenField.setAttribute("type", "hidden");
+          hiddenField.setAttribute("name", key);
+          hiddenField.setAttribute("value", params[key]);
+
+          form.appendChild(hiddenField);
+        }
+        console.log(form);
+
+        document.body.appendChild(form);
+        form._submit_function_();
+      }
+      sendRequest.addEventListener("click", () => {
+        if (latitude === undefined && longitude === undefined) {
+          alert("You need submit your location");
+        } else {
+          var stationName = document.getElementById("username").value;
+          var area = document.getElementById("area").value;
+          var password = document.getElementById("password").value;
+          var params = {
+            stationName: stationName,
+            area: area,
+            password: password,
+            latitude: latitude,
+            longitude: longitude,
+          };
+          console.log(params);
+          var url = "/register";
+          post(url, params, "post");
+        }
+      });
+    </script>
   </body>
 </html>

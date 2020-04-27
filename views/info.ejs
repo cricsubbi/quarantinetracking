@@ -29,33 +29,177 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   
     <title>covid info</title>
+  <style>
+  a {
+  color: #000;
+}
+
+/* header */
+
+.header {
+  background-color: #ff7575;
+  box-shadow: 1px 1px 4px 0 rgba(255,117,117,.1);
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+}
+
+.header ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  background-color: #ff7575;
+}
+
+.header li a {
+  display: block;
+  padding: 20px 20px;
+  border-right: 1px solid #ff7575;
+  text-decoration: none;
+}
+
+.header li a:hover,
+.header .menu-btn:hover {
+  background-color: #ffeaea;
+}
+
+.header .logo {
+  display: block;
+  float: left;
+  font-size: 2em;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+
+/* menu */
+
+.header .menu {
+  clear: both;
+  max-height: 0;
+  transition: max-height .2s ease-out;
+}
+
+/* menu icon */
+
+.header .menu-icon {
+  cursor: pointer;
+  display: inline-block;
+  float: right;
+  padding: 28px 20px;
+  position: relative;
+  user-select: none;
+}
+
+.header .menu-icon .navicon {
+  background: #333;
+  display: block;
+  height: 2px;
+  position: relative;
+  transition: background .2s ease-out;
+  width: 18px;
+}
+
+.header .menu-icon .navicon:before,
+.header .menu-icon .navicon:after {
+  background: #fff2f2;
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  transition: all .2s ease-out;
+  width: 100%;
+}
+
+.header .menu-icon .navicon:before {
+  top: 5px;
+}
+
+.header .menu-icon .navicon:after {
+  top: -5px;
+}
+
+/* menu btn */
+
+.header .menu-btn {
+  display: none;
+}
+
+.header .menu-btn:checked ~ .menu {
+  max-height: 240px;
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon {
+  background: transparent;
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon:before {
+  transform: rotate(-45deg);
+}
+
+.header .menu-btn:checked ~ .menu-icon .navicon:after {
+  transform: rotate(45deg);
+}
+
+.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
+.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
+  top: 0;
+}
+@media (min-width: 48em) {
+  .header li {
+    float: left;
+  }
+  .header li a {
+    padding: 20px 30px;
+  }
+  .header .menu {
+    clear: none;
+    float: right;
+    max-height: none;
+  }
+  .header .menu-icon {
+    display: none;
+  }
+}
+.btn{
+  background: #fff2f2;
+}
+.back{
+  margin-top: 20px;
+    margin-right: 75px;
+}
+.back-main{
+  margin-top: 20px;
+    margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+  </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-info text-dark">
-      <div style="margin-bottom: 20px;">
-           <a class="navbar-brand brand-name " href="#"><span><img class="img-responsive2" style="position:static;width:65px;height: 50px;"  
-            src="./images/virus.png"></span></a>
-          </div>
-      
-        <div class="collapse navbar-collapse"  id="navbarTogglerDemo03">
-          <ul class="navbar-nav ml-auto mr-5 mt-lg-0" style="float: right; align-items: center;">
-            <li class="nav-item active" >
-              <a class="nav-link mr-5" href="/main"><div class="icon"><i class="fa fa-users fa-border fa-2x" aria-hidden="true"></div></i></a>
-            </li>
-            <li class="nav-item" >
-              <a class="nav-link mr-5" href="/covidinfo"><i class="fa fa-bar-chart fa-border fa-2x" aria-hidden="true"></i></a>
-            </li>
-            <div class="nav-item">
-              <form class="form-inline ml-12 my-2 my-lg-0" action="/logout" method="POST">
-                <button class="btn btn-secondary my-2 my-sm-0" style="background: #4B5366;" type="submit">Logout</button>
-              </form>
-            </div>
-          </ul>
-         
-        </div>
-      </nav>  
+   <header class="header">
+      <a href="/main" class="logo">
+        <form action="/logout" method="POST">
+          <button class="btn back-main" type="submit">Back</button>
+        </form></a>
+      <input class="menu-btn" type="checkbox" id="menu-btn" />
+      <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+      <ul class="menu">
+        <li>              
+          <a class="nav-link mr-5" href="/main"><div class="icon"><i class="fa fa-users fa-border fa-2x" aria-hidden="true"></div></i></a>
+        </li>
+        <li>              
+          <a class="nav-link mr-5"href="/covidinfo"><i class="fa fa-bar-chart fa-border fa-2x" aria-hidden="true"></i></a>
+        </li>
+        <li>
+          <form action="/logout" method="POST">
+            <button class="btn back" type="submit">Logout</button>
+          </form>
+        </li>
+      </ul>
+    </header>
   <br>
-<div class="container">
+<div class="container" style="margin-top: 10%; padding-bottom: 20%;">
   <h1 style="font-family: 'Bree Serif', serif; color:darkblue ;font-size: 55px; " >COVID-19 CASES IN INDIA</h1>
   <br>
   <div class="row">

@@ -3,7 +3,7 @@ var admin = require("firebase-admin");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const router = new express.Router();
-const allInfo = require('../infoapi')
+const allInfo = require("../infoapi");
 var serviceAccount = require("../GoogleFirebaseKey.json");
 
 admin.initializeApp({
@@ -21,6 +21,8 @@ router.get("/register", (req, res) => {
   res.render("register", { message: "" });
 });
 router.post("/register", async (req, res) => {
+  console.log(req.params);
+
   user = req.body;
   req.body.password = await bcrypt.hash(user.password, 8);
   query = await police
@@ -60,7 +62,7 @@ router.post("/", async (req, res) => {
         });
       } else {
         snapshot.forEach(async (doc) => {
-          console.log(doc.data())
+          console.log(doc.data());
           const isMatch = await bcrypt.compare(password, doc.data().password);
           if (!isMatch) {
             console.log("wrong password");
@@ -80,31 +82,31 @@ router.post("/", async (req, res) => {
 router.get("/main", async (req, res) => {
   var userId = req.session.userId;
   var stationName = req.session.user;
-  var policelat 
-  var policelong
+  var policelat;
+  var policelong;
   if (!userId) {
     res.redirect("/");
   } else {
     query = await police
-    .where("stationName", "==", stationName)
-    .get()
-    .then(async (snapshot) => {
-      if (snapshot.empty) {
-        console.log("Account doesn't exist");
-        res.render("login", {
-          message: "account doesnt exist register please",
-        });
-      } else {
-        snapshot.forEach(async (doc) => {
-          console.log(doc.data())
-          policelat = doc.data().lati
-          policelong = doc.data().long
-        });
-      }
-    })
-    .catch((err) => {
-      console.log("Error getting documents", err);
-    });
+      .where("stationName", "==", stationName)
+      .get()
+      .then(async (snapshot) => {
+        if (snapshot.empty) {
+          console.log("Account doesn't exist");
+          res.render("login", {
+            message: "account doesnt exist register please",
+          });
+        } else {
+          snapshot.forEach(async (doc) => {
+            console.log(doc.data());
+            policelat = doc.data().latitude;
+            policelong = doc.data().longitude;
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("Error getting documents", err);
+      });
     let status = db.collection("status");
     let users = db.collection("users");
     var usersList = [];
@@ -117,35 +119,41 @@ router.get("/main", async (req, res) => {
           console.log("No Users Found!");
         } else {
           snapshot.forEach(async (doc) => {
-            try{
-            var userlati = doc.data().latitude
-            var userlong = doc.data().longitude
-            
-            function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-              var R = 6371; // Radius of the earth in km
-              var dLat = deg2rad(lat2-lat1);  // deg2rad below
-              var dLon = deg2rad(lon2-lon1); 
-              var a = 
-                Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-                Math.sin(dLon/2) * Math.sin(dLon/2)
-                ; 
-              var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-              var d = R * c; // Distance in km
-              return d;
-            }
-            
-            function deg2rad(deg) {
-              return deg * (Math.PI/180)
-            }
-            var distance = getDistanceFromLatLonInKm(policelat, policelong, userlati, userlong) 
-            if(distance<200){
-            usersList.push(doc.id);
-            usersList1.push(doc.data());
-            }
-            return
-            }catch(e){
-              console.log(e)
+            try {
+              var userlati = doc.data().latitude;
+              var userlong = doc.data().longitude;
+
+              function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+                var R = 6371; // Radius of the earth in km
+                var dLat = deg2rad(lat2 - lat1); // deg2rad below
+                var dLon = deg2rad(lon2 - lon1);
+                var a =
+                  Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.cos(deg2rad(lat1)) *
+                    Math.cos(deg2rad(lat2)) *
+                    Math.sin(dLon / 2) *
+                    Math.sin(dLon / 2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                var d = R * c; // Distance in km
+                return d;
+              }
+
+              function deg2rad(deg) {
+                return deg * (Math.PI / 180);
+              }
+              var distance = getDistanceFromLatLonInKm(
+                policelat,
+                policelong,
+                userlati,
+                userlong
+              );
+              if (distance < 200) {
+                usersList.push(doc.id);
+                usersList1.push(doc.data());
+              }
+              return;
+            } catch (e) {
+              console.log(e);
             }
           });
         }
@@ -153,86 +161,71 @@ router.get("/main", async (req, res) => {
       .catch((err) => {
         console.log(err);
       });
-      var count1=0
-      var count = 0;
-      usersList.forEach(async (user) => {
-        
-        let getDoc = await status
-          .doc(user)
-          .collection("userStatus")
-          .get()
-          .then((snapshot) => {
-            if (snapshot.empty) {
-              console.log("No matching documents.");
-              count+=1
-              count1 += 1
-              console.log('count1'+count1)
-              if (count1 === usersList.length) {
-                
-                res.render("list.ejs", { usersList1: usersList1 });
-              }
-              return;
-            } else {
-              count += 1;
-              
-              
-              snapshot.forEach((doc) => {
-                usersList2.push(doc.data())
-                usersList1.forEach((user) => {
-                  
-                  if (user.uid === doc.data().ownerId) {
-                    
-                    console.log("doc:" + usersList2.length);
-                    console.log("count:" + count);
-                    var d = doc.data().timeStamp.toDate().toString();
-                    var dhrs = doc.data().timeStamp.toDate();
-                    var index = d.lastIndexOf(":") + 3;
-                    var now = new Date();
-                    var diffMs = now - dhrs;
-                    var diffDays = Math.floor(diffMs / 86400000);
-                    var diffHrs = Math.floor(
-                      (diffMs % 86400000) / 3600000
-                    );
-                    console.log("ul:"+usersList1.length);
-                    if (diffHrs > 3 || diffDays>1) {
-                      user.status = 0;
-                    } else {
-                      user.status = 1;
-                    }
-                    user.updatedDate = d.substring(0, index);
-                    
-                    
-                  }
-                  
-                });
-              });  
-             
+    var count1 = 0;
+    var count = 0;
+    usersList.forEach(async (user) => {
+      let getDoc = await status
+        .doc(user)
+        .collection("userStatus")
+        .get()
+        .then((snapshot) => {
+          if (snapshot.empty) {
+            console.log("No matching documents.");
+            count += 1;
+            count1 += 1;
+            console.log("count1" + count1);
+            if (count1 === usersList.length) {
+              res.render("list.ejs", { usersList1: usersList1 });
             }
-            
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-          if (count === usersList1.length) {
-            console.log(usersList1);
-            res.render("list.ejs", { usersList1: usersList1 });
-          }   
-      })
-      
-      
-      
+            return;
+          } else {
+            count += 1;
+
+            snapshot.forEach((doc) => {
+              usersList2.push(doc.data());
+              usersList1.forEach((user) => {
+                if (user.uid === doc.data().ownerId) {
+                  console.log("doc:" + usersList2.length);
+                  console.log("count:" + count);
+                  var d = doc.data().timeStamp.toDate().toString();
+                  var dhrs = doc.data().timeStamp.toDate();
+                  var index = d.lastIndexOf(":") + 3;
+                  var now = new Date();
+                  var diffMs = now - dhrs;
+                  var diffDays = Math.floor(diffMs / 86400000);
+                  var diffHrs = Math.floor((diffMs % 86400000) / 3600000);
+                  console.log("ul:" + usersList1.length);
+                  if (diffHrs > 3 || diffDays > 1) {
+                    user.status = 0;
+                  } else {
+                    user.status = 1;
+                  }
+                  user.updatedDate = d.substring(0, index);
+                }
+              });
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      if (count === usersList1.length) {
+        console.log(usersList1);
+        res.render("list.ejs", { usersList1: usersList1 });
+      }
+    });
   }
 });
 router.get("/users/:uid", async (req, res) => {
   var user = req.session.userId;
-  if(!user){
-    res.redirect("/")
+  if (!user) {
+    res.redirect("/");
   }
   var statusList = Array();
   var timeArray = Array();
   var user;
   var uid = req.params.uid;
-  var latestUpdate= []
+  var latestUpdate = [];
   var url;
   let users = db.collection("users");
   let status = db.collection("status");
@@ -290,23 +283,17 @@ router.get("/users/:uid", async (req, res) => {
   }
 });
 
-router.get('/covidinfo',(req,res)=>{
-  
+router.get("/covidinfo", (req, res) => {
   var user = req.session.userId;
-  if(!user){
-    res.redirect("/")
+  if (!user) {
+    res.redirect("/");
   }
-  allInfo((err,totalInfo)=>{
-if(err) throw new error;
-console.log(totalInfo)
-res.render('info.ejs',{totalInfo:totalInfo})
-
-  })
-   
-  
-})
-
-
+  allInfo((err, totalInfo) => {
+    if (err) throw new error();
+    console.log(totalInfo);
+    res.render("info.ejs", { totalInfo: totalInfo });
+  });
+});
 
 router.post("/logout", (req, res) => {
   req.session.destroy((err) => {
