@@ -150,6 +150,7 @@ router.get("/main", async (req, res) => {
               if (distance < 200) {
                 usersList.push(doc.id);
                 usersList1.push(doc.data());
+               
               }
               return;
             } catch (e) {
@@ -161,6 +162,23 @@ router.get("/main", async (req, res) => {
       .catch((err) => {
         console.log(err);
       });
+      usersList1.forEach(async(user)=>{ const queryStatus = await status
+        .doc(user.uid)
+        .collection("userStatus")
+        .get()
+        .then((snapshot) => {
+          if (snapshot.empty) {
+            console.log("No matching documents.");
+          } else {
+            snapshot.forEach((doc) => {
+              
+              
+              user.dist = doc.data().distanceFromHome;
+              
+            });
+          }
+        })
+      })
     var count1 = 0;
     var count = 0;
     usersList.forEach(async (user) => {
@@ -183,7 +201,7 @@ router.get("/main", async (req, res) => {
 
             snapshot.forEach((doc) => {
               usersList2.push(doc.data());
-              usersList1.forEach((user) => {
+              usersList1.forEach(async(user) => {
                 if (user.uid === doc.data().ownerId) {
                   console.log("doc:" + usersList2.length);
                   console.log("count:" + count);
@@ -201,6 +219,8 @@ router.get("/main", async (req, res) => {
                     user.status = 1;
                   }
                   user.updatedDate = d.substring(0, index);
+                  
+    
                 }
               });
             });
@@ -209,6 +229,8 @@ router.get("/main", async (req, res) => {
         .catch((err) => {
           console.log(err);
         });
+        
+  
       if (count === usersList1.length) {
         console.log(usersList1);
         res.render("list.ejs", { usersList1: usersList1 });

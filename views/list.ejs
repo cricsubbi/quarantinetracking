@@ -492,6 +492,7 @@
           <th>Location</th>
           <th>Last Updated</th>
           <th>Updated Recently</th>
+          <th>Home</th>
         </tr>
       </thead>
       <tbody>
@@ -518,6 +519,22 @@
               >&bull;</span
             >
               No
+           <% }%>
+          </td>
+          <td>
+             
+            <%if(usersList1[i].dist<40){%>
+              <span
+              class="status text-success"
+              >&bull;</span
+            >
+              In
+            <%}else{%>
+              <span
+              class="status text-danger"
+              >&bull;</span
+            >
+              Out
            <% }%>
           </td>
           <td>
