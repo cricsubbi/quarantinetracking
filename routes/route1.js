@@ -112,6 +112,7 @@ router.get("/main", async (req, res) => {
     var usersList = [];
     var usersList1 = Array();
     var usersList2 = Array();
+    var countdist = 0;
     const queryList = await users
       .get()
       .then(async (snapshot) => {
@@ -169,7 +170,10 @@ router.get("/main", async (req, res) => {
         .then((snapshot) => {
           if (snapshot.empty) {
             console.log("No matching documents.");
+            countdist+=1;
           } else {
+            countdist+=1;
+            console.log(countdist)
             snapshot.forEach((doc) => {
               
               
@@ -198,7 +202,7 @@ router.get("/main", async (req, res) => {
             return;
           } else {
             count += 1;
-
+            
             snapshot.forEach((doc) => {
               usersList2.push(doc.data());
               usersList1.forEach(async(user) => {
@@ -231,7 +235,7 @@ router.get("/main", async (req, res) => {
         });
         
   
-      if (count === usersList1.length) {
+      if (count === usersList1.length && countdist === usersList1.length) {
         console.log(usersList1);
         res.render("list.ejs", { usersList1: usersList1 });
       }
