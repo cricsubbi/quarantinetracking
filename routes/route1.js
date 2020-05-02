@@ -171,6 +171,7 @@ router.get("/main", async (req, res) => {
           if (snapshot.empty) {
             console.log("No matching documents.");
             countdist+=1;
+            
           } else {
             countdist+=1;
             console.log(countdist)
@@ -180,7 +181,10 @@ router.get("/main", async (req, res) => {
               user.dist = doc.data().distanceFromHome;
               
             });
-            
+            if (count === usersList1.length && countdist === usersList1.length) {
+              console.log(usersList1);
+              res.render("list.ejs", { usersList1: usersList1 });
+            }
           }
         })
       })
@@ -235,12 +239,14 @@ router.get("/main", async (req, res) => {
           console.log(err);
         });
         
-  
-      if (count === usersList1.length && countdist === usersList1.length) {
-        console.log(usersList1);
-        res.render("list.ejs", { usersList1: usersList1 });
-      }
+        if (count === usersList1.length && countdist === usersList1.length) {
+          console.log(usersList1);
+          res.render("list.ejs", { usersList1: usersList1 });
+        }
+      
     });
+    
+    
   }
 });
 router.get("/users/:uid", async (req, res) => {
