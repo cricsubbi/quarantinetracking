@@ -180,6 +180,7 @@ router.get("/main", async (req, res) => {
               user.dist = doc.data().distanceFromHome;
               
             });
+            
           }
         })
       })
@@ -320,6 +321,130 @@ router.get("/covidinfo", (req, res) => {
     res.render("info.ejs", { totalInfo: totalInfo });
   });
 });
+
+router.get('/map',async(req,res)=>{
+  var userId = req.session.userId;
+  var stationName = req.session.user;
+  var policelat;
+  var policelong;
+  if (!userId) {
+    res.redirect("/");
+  } else {
+    query = await police
+      .where("stationName", "==", stationName)
+      .get()
+      .then(async (snapshot) => {
+        if (snapshot.empty) {
+          console.log("Account doesn't exist");
+          res.render("login", {
+            message: "account doesnt exist register please",
+          });
+        } else {
+          snapshot.forEach(async (doc) => {
+            console.log(doc.data());
+            policelat = doc.data().latitude;
+            policelong = doc.data().longitude;
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("Error getting documents", err);
+      });
+    let status = db.collection("status");
+    let users = db.collection("users");
+    var usersList = [];
+    var usersList1 = Array();
+    var usersList2 = Array();
+    var countdist = 0;
+    const queryList = await users
+      .get()
+      .then(async (snapshot) => {
+        if (snapshot.empty) {
+          console.log("No Users Found!");
+        } else {
+          snapshot.forEach(async (doc) => {
+            try {
+              var userlati = doc.data().latitude;
+              var userlong = doc.data().longitude;
+
+              function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+                var R = 6371; // Radius of the earth in km
+                var dLat = deg2rad(lat2 - lat1); // deg2rad below
+                var dLon = deg2rad(lon2 - lon1);
+                var a =
+                  Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.cos(deg2rad(lat1)) *
+                    Math.cos(deg2rad(lat2)) *
+                    Math.sin(dLon / 2) *
+                    Math.sin(dLon / 2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                var d = R * c; // Distance in km
+                return d;
+              }
+
+              function deg2rad(deg) {
+                return deg * (Math.PI / 180);
+              }
+              var distance = getDistanceFromLatLonInKm(
+                policelat,
+                policelong,
+                userlati,
+                userlong
+              );
+              if (distance < 200) {
+                usersList.push(doc.id);
+                usersList1.push(doc.data());
+               
+              }
+              return;
+            } catch (e) {
+              console.log(e);
+            }
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      usersList1.forEach(async(user)=>{ const queryStatus = await status
+        .doc(user.uid)
+        .collection("userStatus")
+        .get()
+        .then((snapshot) => {
+          if (snapshot.empty) {
+            console.log("No matching documents.");
+            countdist+=1;
+          } else {
+            countdist+=1;
+            console.log(countdist)
+            snapshot.forEach((doc) => {
+              
+              
+              user.lat = doc.data().latitude
+              user.lng = doc.data().longitude
+              
+            });
+            
+          }
+
+        })
+        if(countdist==usersList1.length){
+          
+          var locList = Array()
+          usersList1.forEach((user)=>{
+            locList.push({lat:user.lat,lng:user.lng})
+            
+          })
+          console.log(locList)
+          res.send(locList)
+        }
+      })
+      
+    }
+    
+    
+})
+
 
 router.post("/logout", (req, res) => {
   req.session.destroy((err) => {
