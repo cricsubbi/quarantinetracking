@@ -10,9 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aes-js": "^3.1.2",
     "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "connect-redis": "^4.0.4",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.0.0",
     "ejs": "^3.0.2",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
@@ -20,7 +24,10 @@
     "geo-distance-js": "^1.0.0",
     "geopoint": "^1.0.1",
     "node-geo-distance": "^1.2.0",
-    "request": "^2.88.2"
+    "node-rsa": "^1.0.8",
+    "redis": "^3.0.2",
+    "request": "^2.88.2",
+    "xxtea-node": "^1.1.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.3"

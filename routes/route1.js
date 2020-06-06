@@ -5,6 +5,7 @@ const session = require("express-session");
 const router = new express.Router();
 const allInfo = require("../infoapi");
 var serviceAccount = require("../GoogleFirebaseKey.json");
+var xxtea = require('xxtea-node');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -68,6 +69,7 @@ router.post("/", async (req, res) => {
             console.log("wrong password");
             res.render("login", { message: "Wrong Credentials" });
           } else {
+            
             req.session.userId = doc.id;
             req.session.user = doc.data().stationName;
             res.redirect("/main");
@@ -256,6 +258,7 @@ router.get("/users/:uid", async (req, res) => {
   }
   var statusList = Array();
   var timeArray = Array();
+  var user2;
   var user;
   var uid = req.params.uid;
   var latestUpdate = [];
@@ -288,14 +291,23 @@ router.get("/users/:uid", async (req, res) => {
       } else {
         snapshot.forEach((doc) => {
           timeArray.push(doc.data().timeStamp.toDate().toString());
-          statusList.push(doc.data());
+         user2 = doc.data()
+          user2.temperature = xxtea.decryptToString(doc.data().temperature, "sumoo3011@1999")
+          user2.peopleCount = xxtea.decryptToString(doc.data().peopleCount, "sumoo3011@1999")
+          user2.mediaUrl    = xxtea.decryptToString(doc.data().mediaUrl, "sumoo3011@1999") 
+          user2.location    = xxtea.decryptToString(doc.data().location, "sumoo3011@1999")
+          user2.additionalInfo    = xxtea.decryptToString(doc.data().additionalInfo, "sumoo3011@1999")
+          console.log(user2)
+        
+          statusList.push(user2);
           console.log(doc.id, "=>", doc.data());
-          latestUpdate = doc.data();
+          latestUpdate = user2;
         });
       }
     })
     .catch((err) => {
       console.log("This is media URL: ", latestUpdate.mediaUrl);
+      console.log(err)
     });
   try {
     res.render("users", {
@@ -315,6 +327,62 @@ router.get("/users/:uid", async (req, res) => {
     });
   }
 });
+
+router.post("/edit/:uid",async(req,res)=>{
+  var user = req.session.userId;
+  if (!user) {
+    res.redirect("/");
+  }
+  
+  
+  var user;
+  var uid = req.params.uid;
+  
+  let users = db.collection("users");
+  var name=req.body.name
+  var email = req.body.email
+  var phoneno= req.body.phoneno
+  var phoneno2 = req.body.phoneno2
+  var address = req.body.address
+  var count=0;
+  const queryUser = await users
+    .where("uid", "==", uid)
+    .get()
+    .then((snapshot) => {
+      if (snapshot.empty) {
+        console.log("User not found");
+      } else {
+        snapshot.forEach((doc) => {
+          count +=1;
+          console.log(doc.id, "=>", doc.data());
+          user = doc.data();
+          if(name){user.name = name}
+          if(email){user.email = email}
+          if(address){user.address = address}
+          if(phoneno){user.phoneno = phoneno}
+          if(phoneno2){user.phoneno2 = phoneno2}
+          
+          
+          
+          
+          db.collection("users")
+          .doc(uid)
+          .set(user)
+          .then(() => {
+            console.log("Successfully updated user");
+          });
+        });
+          console.log(user)
+          res.redirect("/users/"+uid)
+        
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    
+})
+
 
 router.get("/covidinfo", (req, res) => {
   var user = req.session.userId;
