@@ -247,12 +247,14 @@
   box-shadow: 1px 1px 4px 0 rgba(255,117,117,.1);
   position: fixed;
   width: 100%;
+  height: 90px;
   z-index: 3;
 }
 
 .header ul {
   margin: 0;
   padding: 0;
+  height: 90px;
   list-style: none;
   overflow: hidden;
   background-color: #ff7575;
@@ -274,7 +276,7 @@
   display: block;
   float: left;
   font-size: 2em;
-  padding: 10px 20px;
+  padding: 10px 10px;
   text-decoration: none;
 }
 
@@ -291,7 +293,7 @@
 .header .menu-icon {
   cursor: pointer;
   display: inline-block;
-  float: right;
+  
   padding: 28px 20px;
   position: relative;
   user-select: none;
@@ -300,7 +302,7 @@
 .header .menu-icon .navicon {
   background: #333;
   display: block;
-  height: 2px;
+  height: 1px;
   position: relative;
   transition: background .2s ease-out;
   width: 18px;
@@ -356,6 +358,19 @@
         width: 80%;  /* The width is the width of the web page */
        }
 /* 48em = 768px */
+#chat-circle {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  background: #5A5EB9;
+  width: 80px;
+  height: 80px;  
+  border-radius: 50%;
+  color: white;
+  padding: 28px;
+  cursor: pointer;
+  box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.6), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
 
 @media (min-width: 48em) {
   .header li {
@@ -402,7 +417,7 @@
   <body>
     <header class="header">
       <a href="/main" class="logo">
-      <img src="./icon/logo.png" style="height: 4rem; width: 4rem;" alt="Logo"></a>
+      <img src="./icon/logo.png" style="height: 4rem; width: 4rem;" ></a>
       <input class="menu-btn" type="checkbox" id="menu-btn" />
       <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
       <ul class="menu">
@@ -411,6 +426,9 @@
         </li>
         <li>              
           <a class="nav-link mr-5"href="/covidinfo"><i class="fa fa-bar-chart fa-border fa-2x" aria-hidden="true"></i></a>
+        </li>
+        <li>              
+          <a class="nav-link mr-5"href="/bot"><i class="fa fa-comments fa-border fa-2x" aria-hidden="true"></i></a>
         </li>
         <li>
           <form action="/logout" method="POST">
@@ -565,6 +583,10 @@
   
   <div id="map" style="margin-left: 150px;"></div>
 <br>
+<div id="chat-circle" class="btn btn-raised">
+  <div id="chat-overlay"></div>
+  <i class="material-icons">speaker_phone</i>
+</div>
 </div>
 
 <script>
@@ -628,7 +650,13 @@ function clearFilter()
 	{
 		$('.filterText').val('');
 		$('.content').show();
-	}
+  }
+  $(function() {
+  $(".chat-box-toggle").click(function() {
+    $("#chat-circle").toggle('scale');
+    $(".chat-box").toggle('scale');
+  })
+})
   </script>
   <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4AYC6iLlN-W3VPHVpM6jLamChCN41uFs&callback=initMap">
