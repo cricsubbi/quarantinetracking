@@ -262,7 +262,7 @@
 
 .header li a {
   display: block;
-  padding: 20px 20px;
+  padding: 10px 10px;
   border-right: 1px solid #ff7575;
   text-decoration: none;
 }
@@ -305,7 +305,7 @@
   height: 1px;
   position: relative;
   transition: background .2s ease-out;
-  width: 18px;
+  width: 15px;
 }
 
 .header .menu-icon .navicon:before,
@@ -422,7 +422,7 @@
       <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
       <ul class="menu">
         <li>              
-          <a class="nav-link mr-5" href="/main"><div class="icon"><i class="fa fa-users fa-border fa-2x" aria-hidden="true"></div></i></a>
+          <a class="nav-link mr-4" href="/main"><div class="icon"><i class="fa fa-users fa-border fa-2x" aria-hidden="true"></div></i></a>
         </li>
         <li>              
           <a class="nav-link mr-5"href="/covidinfo"><i class="fa fa-bar-chart fa-border fa-2x" aria-hidden="true"></i></a>
@@ -438,8 +438,12 @@
       </ul>
     </header>
   <br>
-<div class="container" style="margin-top: 10%;">
-  <div class="table-wrapper">
+  
+  <div class="container" style="margin-top: 5%;">
+    <div class="row" style="height: 5px;">
+    <a href="https://apps.bbmpgov.in/covidbedstatus/" style="margin-left: 980px;color: #03a3e7;font-size: medium;">BBMP Bed Count</a>
+  </div>
+    <div class="table-wrapper">
     <div class="table-title">
       <div class="row">
         <div class="col-sm-4">
@@ -586,6 +590,7 @@
 
 </div>
 
+
 <script>
   
   function initMap() {
@@ -610,6 +615,7 @@
       
     
     })
+    
   
   
   
@@ -648,12 +654,7 @@ function clearFilter()
 		$('.filterText').val('');
 		$('.content').show();
   }
-  $(function() {
-  $(".chat-box-toggle").click(function() {
-    $("#chat-circle").toggle('scale');
-    $(".chat-box").toggle('scale');
-  })
-})
+ 
   </script>
   <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4AYC6iLlN-W3VPHVpM6jLamChCN41uFs&callback=initMap">
